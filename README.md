@@ -3,6 +3,8 @@ i was just bored and anxios
 
 **oculus** - a tool for making screenshots of url list based on splinter lib
 
+### Requirments
+**IDK lol one can check shell.nix (snitched it somewhere from internet)**
 
 ### TODO:
 - ? proxying traffic via tor ?
