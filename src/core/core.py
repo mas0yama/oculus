@@ -5,12 +5,14 @@ import os
 
 
 class Session:
-    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out"):
+    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", user_agent = None):
+
         self.browser = None
         self.outdir = None
         self.inpdir = None
         self.current_path = os.getcwd()
 
+        log_debug("sessin init", f"{self.current_path}")
         if not os.path.isdir(input_dir):
             log_fatal("Session initialization", "Could not find input directory.")
             raise NotADirectoryError
@@ -20,8 +22,8 @@ class Session:
         if os.path.isdir(output_dir):
             _ = time.time()
             log_info("Session  initialization", f"Output dir exists. Creating new dir_{_}")
-            os.mkdir(f"/dir{_}")
-            self.outdir = f"/dir{_}"
+            os.mkdir(f"{output_dir}{_}")
+            self.outdir = f"{output_dir}{_}"
 
         if not os.path.isdir(output_dir):
             log_info("Session initialization", f"Creating new output dir {output_dir}")
@@ -48,9 +50,9 @@ class Session:
 
                 if url is None:
                     continue
-                path = f"{self.outdir}/{url[5::]}.png"
+                path = f"{self.outdir}/{url.split("://")[-1]}.png"
                 log_info("Screenshotting %", f"Screenshoting {url}")
                 self.browser.visit(url)
                 log_info("Saving %", f"{path}")
                 self.browser.driver.save_full_page_screenshot(path)
-                self.browser.quit()
+                #self.browser.quit()
