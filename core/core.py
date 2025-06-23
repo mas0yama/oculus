@@ -1,5 +1,5 @@
 import splinter
-from src.loggers import *
+from loggers import *
 import time
 import os
 
