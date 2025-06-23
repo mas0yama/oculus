@@ -67,7 +67,7 @@ class Session:
                 self.__req_per_ua_counter = 0
                 cur_ua_index = self.__user_agents.index(self.__cur_ua)
                 self.__cur_ua = self.__user_agents[(cur_ua_index + 1) % len(self.__user_agents)]
-        path = f"{self.outdir}/{url.split("://")[-1]}.png"
+        path = f"{self.outdir}/{url.split("://")[-1].split("/")[0]}.png"
         log_info("Screenshotting %", f"Screenshoting {url}")
         log_info("Screenshotin %",
                  f"Using User-Agent {self.__cur_ua} {self.__req_per_ua_counter + 1}/{self.__requests_per_ua}")
