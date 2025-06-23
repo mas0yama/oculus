@@ -5,6 +5,8 @@ so... i wrote this.
 
 **oculus** - a tool for making screenshots of url list.
 
+![](oculus.jpg)
+
 based on splinter lib
 
 ### Requirments
