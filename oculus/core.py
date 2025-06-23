@@ -78,7 +78,6 @@ class Session:
         self.__req_per_ua_counter += 1
 
     def run(self):
-
         for input_file in os.listdir(self.inpdir):
             urls = []
             log_info("Running %", f"Reading input file {input_file}")

@@ -7,7 +7,7 @@ parser.add_argument('-i', '--input', type=str, default="", help="Absolute path t
 parser.add_argument('-o', '--output', type=str, default="", help='Absolute path to directory with output files')
 parser.add_argument('-ua', '--user-agent', default="", type=str, help="Absolute path to file with user-agents")
 parser.add_argument('-rpa', '--req-per-ua', default=5, type=int, help="Amount of requests per user-agent")
-parser.add_argument('-d','--driver-name',default="",type=str, help='Custom drivername')
+parser.add_argument('-d', '--driver-name', default="", type=str, help='Custom drivername')
 
 args = parser.parse_args()
 print(args)
