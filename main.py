@@ -1,6 +1,6 @@
 import argparse
 
-from core.core import Session
+from oculus.core import Session
 
 parser = argparse.ArgumentParser(description="oculus - take a screenshot of urls")
 parser.add_argument('-i', '--input', type=str, default="", help="Absolute path to directory with input files")

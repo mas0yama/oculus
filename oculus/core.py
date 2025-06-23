@@ -1,5 +1,5 @@
 import splinter
-from loggers import *
+from oculus.loggers import *
 import time
 import os
 
