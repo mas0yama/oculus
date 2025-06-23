@@ -42,14 +42,15 @@ class Session:
         # TODO EXTENSIONS
         _use_ua = False
         _custom_driver = False
+        if ua_filename is not None:
+            if not os.path.exists(ua_filename):
+                log_fatal("Session config %", "Could not find user-agents file. Using default.")
+                return
 
-        if not os.path.exists(ua_filename):
-            log_fatal("Session config %", "Could not find user-agents file. Using default.")
-            return
+            with open(ua_filename, "rt") as f:
+                self.__user_agents = f.read().split('\n')
+            self.__cur_ua = self.__user_agents[0]
 
-        with open(ua_filename, "rt") as f:
-            self.__user_agents = f.read().split('\n')
-        self.__cur_ua = self.__user_agents[0]
         self.__browser_config = splinter.Config(extensions=None, fullscreen=False, headless=True, incognito=False,
                                                 user_agent=self.__cur_ua)
         self.__requests_per_ua = requsts_per_ua
