@@ -1,3 +1,7 @@
+"""
+Copyright 2025 mas0yama [oyamamas]
+"""
+
 import sys
 from datetime import datetime
 import inspect

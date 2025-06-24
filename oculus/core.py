@@ -1,3 +1,7 @@
+"""
+Copyright 2025 mas0yama [oyamamas]
+
+"""
 import splinter
 from oculus.loggers import *
 import time
