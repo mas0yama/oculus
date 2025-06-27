@@ -19,6 +19,9 @@ packages = [
     scipy
     splinter
     selenium
+    beautifulsoup4
+    aiohttp
+    termcolor
   ]))];  
 
 

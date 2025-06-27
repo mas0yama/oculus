@@ -8,8 +8,8 @@ import time
 import os
 
 
-class Session:
-    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out"):
+class Oculus:
+    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", wordlist_path=None):
 
         self.browser = None
         self.outdir = None
@@ -22,6 +22,9 @@ class Session:
         self.__req_per_ua_counter = 0
 
         self.__browser_config = ()
+
+        self.__explored = {}
+        self.__wordlist_path = wordlist_path
 
         log_debug("sessin init", f"{self.__current_path}")
         if not os.path.isdir(input_dir):
@@ -41,6 +44,10 @@ class Session:
             os.mkdir(f"{output_dir}")
             self.outdir = f"{output_dir}"
             log_info("Setting outdir", f"{self.outdir}")
+
+        if wordlist_path is not None:
+            if not os.path.exists(wordlist_path):
+                log_fatal("Session initiliazation", f"Could not find worldlist file {wordlist_path}")
 
     def config(self, ua_filename=None, requsts_per_ua=5, driver=None, **kwargs):
         # TODO EXTENSIONS
@@ -80,6 +87,28 @@ class Session:
         log_info("Saving %", f"{path}")
         self.browser.driver.save_full_page_screenshot(path)
         self.__req_per_ua_counter += 1
+
+    def __brute_dirs(self, queue_len=10):
+        wordlist_file = None
+        cur_offset = 0
+        path_queue = []
+        try:
+            wordlist_file = open(self.__wordlist_path, "rt")
+        except Exception as e:
+            log_fatal("Brute dirs", str(e))
+            return
+
+        for _ in range(queue_len):
+            wordlist_file.seek(0, os.SEEK_END)
+            if cur_offset == wordlist_file.tell():
+                break
+
+            wordlist_file.seek(cur_offset)
+            path_queue.append(wordlist_file.readline())
+            cur_offset = wordlist_file.tell()
+
+
+        pass
 
     def run(self):
         for input_file in os.listdir(self.inpdir):
