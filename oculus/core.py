@@ -7,9 +7,11 @@ from oculus.loggers import *
 import time
 import os
 
+import requests
+
 
 class Oculus:
-    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", wordlist_path=None):
+    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", wordlist_path=None, base_url = ""):
 
         self.browser = None
         self.outdir = None
@@ -25,6 +27,7 @@ class Oculus:
 
         self.__explored = {}
         self.__wordlist_path = wordlist_path
+        self.__base_url = base_url
 
         log_debug("sessin init", f"{self.__current_path}")
         if not os.path.isdir(input_dir):
@@ -88,7 +91,7 @@ class Oculus:
         self.browser.driver.save_full_page_screenshot(path)
         self.__req_per_ua_counter += 1
 
-    def __brute_dirs(self, queue_len=10):
+    def brute_dirs(self, queue_len=10):
         wordlist_file = None
         cur_offset = 0
         path_queue = []
@@ -98,15 +101,30 @@ class Oculus:
             log_fatal("Brute dirs", str(e))
             return
 
-        for _ in range(queue_len):
+        wordlist_file.seek(0, os.SEEK_END)
+        while cur_offset != wordlist_file.tell():
+            path_queue = []
+
+            # Collect queue to check path existence
+            for _ in range(queue_len):
+                wordlist_file.seek(0, os.SEEK_END)
+                if cur_offset == wordlist_file.tell():
+                    break
+
+                wordlist_file.seek(cur_offset)
+                path_queue.append(wordlist_file.readline())
+                cur_offset = wordlist_file.tell()
+
+            for path in path_queue:
+                path = f"{self.__base_url}{path.rstrip()}"
+                response = requests.get(path)
+                if response.status_code != 404:
+                    self.__explored[path] = response.status_code
+                    log_info("Busting dirs %", f"Explored {response.status_code} {path}")
+                    log_info("Busting dirs ", "Screenshoting...")
+                    self.__screenshot(path)
+
             wordlist_file.seek(0, os.SEEK_END)
-            if cur_offset == wordlist_file.tell():
-                break
-
-            wordlist_file.seek(cur_offset)
-            path_queue.append(wordlist_file.readline())
-            cur_offset = wordlist_file.tell()
-
 
         pass
 

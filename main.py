@@ -1,5 +1,3 @@
-import argparse
-
 from oculus.core import Oculus
 
 # parser = argparse.ArgumentParser(description="oculus - take a screenshot of urls")
@@ -17,7 +15,10 @@ from oculus.core import Oculus
 # session.run()
 
 
-from oculus.utils import dirbrute
+from oculus import utils
 
+# dirbrute.parse_gobuster_dir_output("./gobusterout")
 
-dirbrute.parse_gobuster_dir_output("./gobusterout")
+session = Oculus(input_dir=, output_dir=, wordlist_path=, base_url="https://example.com/")
+session.config()
+session.brute_dirs(5)

@@ -34,4 +34,3 @@ def parse_gobuster_dir_output(input_file):
 
 
 
-
