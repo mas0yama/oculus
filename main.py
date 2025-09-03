@@ -44,9 +44,9 @@ if args.output == '':
     print("Set --output")
     exit(0)
 
-if args.url == '':
-    print("Set --url")
-    exit(0)
+# if args.url == '':
+#     print("Set --url")
+#     exit(0)
 
 if args.user_agent == '':
     args.user_agent = None
@@ -54,9 +54,22 @@ if args.user_agent == '':
 if args.gobuster == '':
     args.gobuster = None
 
-oculus = Oculus(input_dir=args.input, output_dir=args.output, wordlist_path=args.wordlist, base_url=args.url,
+
+# Base url нужен чтобы брутить
+# Если есть input, то base url ебали в рот
+
+# ёпта.
+# в inputs сайты которые надо пробрутить
+# бейз юрл тут к пизде рукав не пришей
+# я плохой разраб
+# удаляюсь
+# input_dir + wordlists
+# base_url + gobuster
+
+oculus = Oculus(input_dir=args.input, output_dir=args.output, wordlist_path=args.wordlist, base_url=None,
                 gobuster_path=args.gobuster)
 
 oculus.config(args.user_agent, args.req_per_ua)
 
 oculus.brute_dirs(5)
+#oculus.run()

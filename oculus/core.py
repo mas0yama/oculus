@@ -56,7 +56,7 @@ class Oculus:
 
             if self.__wordlist_path is not None:
                 if not os.path.exists(self.__wordlist_path):
-                    log_fatal("Session initiliazation", f"Could not find worldlist file {wordlist_path}")
+                    log_fatal("Session initiliazation", f"Could not find worldlist file {self.__wordlist_path}")
 
     def config(self, ua_filename=None, requsts_per_ua=5, driver=None, **kwargs):
         # TODO EXTENSIONS
