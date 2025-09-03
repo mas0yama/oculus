@@ -11,7 +11,8 @@ import requests
 
 
 class Oculus:
-    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", wordlist_path=None, base_url = ""):
+    def __init__(self, drivername: str = None, input_dir="./inp", output_dir="./out", wordlist_path=None, base_url="",
+                 gobuster_path=None):
 
         self.browser = None
         self.outdir = None
@@ -28,13 +29,13 @@ class Oculus:
         self.__explored = {}
         self.__wordlist_path = wordlist_path
         self.__base_url = base_url
+        self.__gobuster = gobuster_path
+        self.inpdir = input_dir
 
         log_debug("sessin init", f"{self.__current_path}")
         if not os.path.isdir(input_dir):
             log_fatal("Session initialization", "Could not find input directory.")
             raise NotADirectoryError
-
-        self.inpdir = input_dir
 
         if os.path.isdir(output_dir):
             _ = time.time()
@@ -48,14 +49,20 @@ class Oculus:
             self.outdir = f"{output_dir}"
             log_info("Setting outdir", f"{self.outdir}")
 
-        if wordlist_path is not None:
-            if not os.path.exists(wordlist_path):
-                log_fatal("Session initiliazation", f"Could not find worldlist file {wordlist_path}")
+        if self.__gobuster is not None:
+            if not os.path.exists(self.__gobuster):
+                log_fatal("Session initiliazation", f"Could not find gobuster out file {self.__gobuster}")
+        else:
+
+            if self.__wordlist_path is not None:
+                if not os.path.exists(self.__wordlist_path):
+                    log_fatal("Session initiliazation", f"Could not find worldlist file {wordlist_path}")
 
     def config(self, ua_filename=None, requsts_per_ua=5, driver=None, **kwargs):
         # TODO EXTENSIONS
-        _use_ua = False
-        _custom_driver = False
+        # _use_ua = False
+        # _custom_driver = False
+
         if ua_filename is not None:
             if not os.path.exists(ua_filename):
                 log_fatal("Session config %", "Could not find user-agents file. Using default.")
@@ -130,7 +137,6 @@ class Oculus:
 
     def run(self):
         for input_file in os.listdir(self.inpdir):
-            urls = []
             log_info("Running %", f"Reading input file {input_file}")
             with open(f"{self.inpdir}/{input_file}", "rt") as f:
                 urls = f.read().strip().split('\n')
